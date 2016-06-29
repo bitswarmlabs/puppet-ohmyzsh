@@ -1,13 +1,13 @@
 {
-  "name": "zanloy-ohmyzsh",
+  "name": "bitswarmlabs-ohmyzsh",
   "version": "1.0.4",
-  "author": "zanloy",
+  "author": "bitswarmlabs",
   "summary": "Install and configure the best shell, oh-my-zsh.",
   "license": "Apache-2.0",
-  "source": "https://github.com/zanloy/puppet-ohmyzsh",
-  "project_page": "https://github.com/zanloy/puppet-ohmyzsh",
-  "issues_url": "https://github.com/zanloy/puppet-ohmyzsh/issues",
-  "description": "Install and configure the best shell, oh-my-zsh. This was originally a fork of acme/ohmyzsh.",
+  "source": "https://github.com/bitswarmlabs/puppet-ohmyzsh",
+  "project_page": "https://github.com/bitswarmlabs/puppet-ohmyzsh",
+  "issues_url": "https://github.com/bitswarmlabs/puppet-ohmyzsh/issues",
+  "description": "Install and configure the best shell, oh-my-zsh. This was originally a fork of zanloy/ohmyzsh, itself a fork of acme/ohmyzsh.",
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0"},
     {"name":"maestrodev/wget","version_requirement":">= 1.5.7"}
