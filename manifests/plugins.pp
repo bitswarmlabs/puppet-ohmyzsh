@@ -25,6 +25,7 @@ define ohmyzsh::plugins(
   $defaults = true,
   $plugins = ['gitfast', 'colorize', 'history-substring-search'],
 ) {
+  include 'ohmyzsh'
   include 'ohmyzsh::config'
 
   if $defaults {
@@ -41,7 +42,7 @@ define ohmyzsh::plugins(
   }
 
   if is_array($all_plugins) {
-    $plugins_real = join($all_plugins, ' ')
+    $plugins_real = join(unique($all_plugins), ' ')
   } else {
     validate_string($all_plugins)
     $plugins_real = $all_plugins

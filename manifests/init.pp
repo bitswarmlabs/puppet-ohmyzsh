@@ -15,11 +15,11 @@ class ohmyzsh(
 ) inherits ohmyzsh::params {
   include 'ohmyzsh::config'
 
-  if empty($plugins) {
-    $default_plugins = $ohmyzsh::config::plugins
+  if $plugins {
+    $default_plugins = concat($ohmyzsh::config::plugins, $plugins)
   }
   else {
-    $default_plugins = concat($ohmyzsh::config::plugins, $plugins)
+    $default_plugins = $ohmyzsh::config::plugins
   }
 
   if str2bool($manage_zsh) or str2bool($ohmyzsh::config::manage_zsh) {

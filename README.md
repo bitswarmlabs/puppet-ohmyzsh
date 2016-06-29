@@ -11,24 +11,37 @@ for more details.
 ## Usage
 
 ```puppet
-# for a single user
+# disable management of zsh and git packages:
+class { 'ohmyzsh::config': manage_zsh => false, manage_git => false }
+
+# install for a single user
 ohmyzsh::install { 'user1': }
 
-# for multiple users in one shot and set their shell to zsh
+# install for multiple users in one shot and set their shell to zsh
 ohmyzsh::install { ['root', 'user1']: set_sh => true }
 
-# install and disable prompt for automatic updates
+# install and disable automatic updating
 ohmyzsh::install { 'user2': disable_auto_update => true }
+
+# install and disable update prompt so updates are applied automatically
+ohmyzsh::install { 'user2': disable_update_prompt => true }
 
 # install a theme for a user
 ohmyzsh::fetch::theme { 'root': url => 'http://zanloy.com/files/dotfiles/oh-my-zsh/squared.zsh-theme' }
 
 # set a theme for a user
-ohmyzsh::theme { ['root', 'user1']: } # would install 'clean' theme as default
+ohmyzsh::theme { ['root', 'user1']: } # would install 'bitswarmops' theme as default
 
-ohmyzsh::theme { ['root', 'user1']: theme => 'robbyrussell' } # specific theme
+ohmyzsh::theme { ['root', 'user1']: theme => 'dpoggi' } # specific theme
 
-# activate plugins for a user
+# changing the hostname slug of bitswarmops theme to use puppet fact:
+class { 'ohmyzsh::config': theme_hostname_slug => $::clientcert }
+ohmyzsh::theme { ['root', 'user1']: }
+
+# activate default plugins for a user
+ohmyzsh::plugins { 'user1': }
+
+# or activate specific plugins for a user
 ohmyzsh::plugins { 'user1': plugins => 'git github' }
 
 # upgrade oh-my-zsh for a single user

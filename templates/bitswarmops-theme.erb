@@ -1,10 +1,10 @@
 # This file is managed by Puppet
 
-if [ $UID -eq 0 ]; then NCOLOR="red"; HCOLOR="red"; else NCOLOR="blue"; HCOLOR="green"; fi
+if [ $UID -eq 0 ]; then NCOLOR="red"; HCOLOR="yellow"; else NCOLOR="cyan"; HCOLOR="blue"; fi
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
 PROMPT='%{$fg[$NCOLOR]%}<%= @theme_username_slug %>%{$reset_color%}%{$fg[$HCOLOR]%}@<%= @theme_hostname_slug %>\
-%{$reset_color%}:%{$fg[green]%}%~\
+%{$reset_color%}:%{$fg[green]%}%~ \
 $(git_prompt_info) \
 %{$fg[yellow]%}%(!.#.»)%{$reset_color%} '
 PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
