@@ -14,23 +14,21 @@
 #
 # === Authors
 #
-# Leon Brocard <acme@astray.com>
-# Zan Loy <zan.loy@gmail.com>
+# Reuben Avery <ravery@bitswarm.io>
 #
 # === Copyright
 #
-# Copyright 2014
+# Copyright 2016 Bitswarm Labs
 #
 define ohmyzsh::theme(
-  $theme = 'clean',
+  $theme = 'bitswarmops',
 ) {
-
-  include ohmyzsh::params
+  include 'ohmyzsh::config'
 
   if $name == 'root' {
     $home = '/root'
   } else {
-    $home = "${ohmyzsh::params::home}/${name}"
+    $home = "${ohmyzsh::config::home}/${name}"
   }
 
   file_line { "${name}-${theme}-install":

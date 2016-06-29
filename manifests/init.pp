@@ -2,11 +2,39 @@
 #
 # === Authors
 #
-# Leon Brocard <acme@astray.com>
-# Zan Loy <zan.loy@gmail.com>
+# Reuben Avery <ravery@bitswarm.io>
 #
 # === Copyright
 #
-# Copyright 2014
+# Copyright 2016 Bitswarm Labs
 #
-class ohmyzsh { }
+class ohmyzsh(
+  $manage_zsh      = $ohmyzsh::params::manage_zsh,
+  $manage_git      = $ohmyzsh::params::manage_git,
+  $plugins         = undef,
+) inherits ohmyzsh::params {
+  include 'ohmyzsh::config'
+
+  if empty($plugins) {
+    $default_plugins = $ohmyzsh::config::plugins
+  }
+  else {
+    $default_plugins = concat($ohmyzsh::config::plugins, $plugins)
+  }
+
+  if str2bool($manage_zsh) or str2bool($ohmyzsh::config::manage_zsh) {
+    if ! defined(Package[$ohmyzsh::config::zsh_package_name]) {
+      package { $ohmyzsh::config::zsh_package_name:
+        ensure => present,
+      }
+    }
+  }
+
+  if str2bool($manage_git) or str2bool($ohmyzsh::config::manage_git) {
+    if ! defined(Package[$ohmyzsh::config::git_package_name]) {
+      package { $ohmyzsh::config::git_package_name:
+        ensure => present,
+      }
+    }
+  }
+}

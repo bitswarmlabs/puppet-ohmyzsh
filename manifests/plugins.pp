@@ -10,34 +10,41 @@
 #
 # === Parameters
 #
+# defaults: (bool) if true, include defined default plugins
 # plugins: (string) space separated list of tmux plugins
-#
+
 # === Authors
 #
-# Leon Brocard <acme@astray.com>
-# Zan Loy <zan.loy@gmail.com>
+# Reuben Avery <ravery@bitswarm.io>
 #
 # === Copyright
 #
-# Copyright 2014
+# Copyright 2016 Bitswarm Labs
 #
 define ohmyzsh::plugins(
-  $plugins = 'git',
+  $defaults = true,
+  $plugins = ['gitfast', 'colorize', 'history-substring-search'],
 ) {
+  include 'ohmyzsh::config'
 
-  include ohmyzsh::params
+  if $defaults {
+    $all_plugins = concat($ohmyzsh::default_plugins, $plugins)
+  }
+  else {
+    $all_plugins = $plugins
+  }
 
   if $name == 'root' {
     $home = '/root'
   } else {
-    $home = "${ohmyzsh::params::home}/${name}"
+    $home = "${ohmyzsh::config::home}/${name}"
   }
 
-  if is_array($plugins) {
-    $plugins_real = join($plugins, ' ')
+  if is_array($all_plugins) {
+    $plugins_real = join($all_plugins, ' ')
   } else {
-    validate_string($plugins)
-    $plugins_real = $plugins
+    validate_string($all_plugins)
+    $plugins_real = $all_plugins
   }
 
   file_line { "${name}-${plugins_real}-install":
@@ -46,5 +53,4 @@ define ohmyzsh::plugins(
     match   => '^plugins=',
     require => Ohmyzsh::Install[$name]
   }
-
 }

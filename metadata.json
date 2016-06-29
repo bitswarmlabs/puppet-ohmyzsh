@@ -1,6 +1,6 @@
 {
   "name": "bitswarmlabs-ohmyzsh",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "author": "bitswarmlabs",
   "summary": "Install and configure the best shell, oh-my-zsh.",
   "license": "Apache-2.0",

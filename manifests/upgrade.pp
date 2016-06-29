@@ -14,24 +14,16 @@
 #
 # === Authors
 #
-# Leon Brocard <acme@astray.com>
-# Zan Loy <zan.loy@gmail.com>
+# Reuben Avery <ravery@bitswarm.io>
 #
 # === Copyright
 #
-# Copyright 2014
+# Copyright 2016 Bitswarm Labs
 #
 define ohmyzsh::upgrade (
   $schedule = 'daily',
 ) {
-
-  include ohmyzsh::params
-
-  if ! defined(Package['git']) {
-    package { 'git':
-      ensure => present,
-    }
-  }
+  include 'ohmyzsh::config'
 
   if ! defined(Schedule['daily']) {
     schedule { 'daily':
@@ -44,7 +36,7 @@ define ohmyzsh::upgrade (
   if $name == 'root' {
     $home = '/root'
   } else {
-    $home = "${ohmyzsh::params::home}/${name}"
+    $home = "${ohmyzsh::config::home}/${name}"
   }
 
   exec { "ohmyzsh::git upgrade ${name}":
