@@ -9,6 +9,7 @@
 # Copyright 2016 Bitswarm Labs
 #
 class ohmyzsh::config(
+  $zsh                   = $ohmyzsh::params::zsh,
   $manage_user           = $ohmyzsh::params::manage_user,
   $set_sh                = $ohmyzsh::params::set_sh,
   $disable_auto_update   = $ohmyzsh::params::disable_auto_update,

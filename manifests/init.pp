@@ -9,20 +9,22 @@
 # Copyright 2016 Bitswarm Labs
 #
 class ohmyzsh(
-  $manage_zsh      = $ohmyzsh::params::manage_zsh,
-  $manage_git      = $ohmyzsh::params::manage_git,
-  $plugins         = undef,
+  $manage_zsh      = 'UNSET',
+  $manage_git      = 'UNSET',
 ) inherits ohmyzsh::params {
   include 'ohmyzsh::config'
 
-  if $plugins {
-    $default_plugins = concat($ohmyzsh::config::plugins, $plugins)
-  }
-  else {
-    $default_plugins = $ohmyzsh::config::plugins
+  $_manage_zsh = $manage_zsh ? {
+    'UNSET' => $ohmyzsh::config::manage_zsh,
+    default => $manage_zsh,
   }
 
-  if str2bool($manage_zsh) or str2bool($ohmyzsh::config::manage_zsh) {
+  $_manage_git = $manage_git ? {
+    'UNSET' => $ohmyzsh::config::manage_git,
+    default => $manage_git,
+  }
+
+  if str2bool($_manage_zsh) {
     if ! defined(Package[$ohmyzsh::config::zsh_package_name]) {
       package { $ohmyzsh::config::zsh_package_name:
         ensure => present,
@@ -30,7 +32,7 @@ class ohmyzsh(
     }
   }
 
-  if str2bool($manage_git) or str2bool($ohmyzsh::config::manage_git) {
+  if str2bool($_manage_git) {
     if ! defined(Package[$ohmyzsh::config::git_package_name]) {
       package { $ohmyzsh::config::git_package_name:
         ensure => present,

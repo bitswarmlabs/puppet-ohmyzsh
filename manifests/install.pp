@@ -46,6 +46,9 @@ define ohmyzsh::install(
   if $disable_update_prompt == undef {
     $_disable_update_prompt = $ohmyzsh::config::disable_update_prompt
   }
+  else {
+    $_disable_update_prompt = $disable_update_prompt
+  }
 
   if $name == 'root' {
     $home = '/root'
