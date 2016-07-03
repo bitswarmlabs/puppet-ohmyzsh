@@ -24,7 +24,7 @@ class ohmyzsh(
     default => $manage_git,
   }
 
-  anchor { 'ohmyzsh::begin': }->Package
+  anchor { 'ohmyzsh::begin': }
 
   if str2bool($_manage_zsh) {
     if ! defined(Package[$ohmyzsh::config::zsh_package_name]) {
