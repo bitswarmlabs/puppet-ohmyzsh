@@ -24,11 +24,14 @@ class ohmyzsh(
     default => $manage_git,
   }
 
+  anchor { 'ohmyzsh::begin': }->Package
+
   if str2bool($_manage_zsh) {
     if ! defined(Package[$ohmyzsh::config::zsh_package_name]) {
       package { $ohmyzsh::config::zsh_package_name:
         ensure => present,
       }
+      ~>Anchor['ohmyzsh::end']
     }
   }
 
@@ -37,6 +40,9 @@ class ohmyzsh(
       package { $ohmyzsh::config::git_package_name:
         ensure => present,
       }
+      ~>Anchor['ohmyzsh::end']
     }
   }
+
+  anchor { 'ohmyzsh::end': }
 }
