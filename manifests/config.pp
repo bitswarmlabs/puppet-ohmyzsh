@@ -19,7 +19,7 @@ class ohmyzsh::config(
   $manage_zsh            = $ohmyzsh::params::manage_zsh,
   $zsh_package_name      = $ohmyzsh::params::zsh_package_name,
   $manage_git            = $ohmyzsh::params::manage_zsh,
-  $git_package_name      = $ohmyzsh::params::zsh_package_name,
+  $git_package_name      = $ohmyzsh::params::git_package_name,
   $theme_username_slug   = $ohmyzsh::params::theme_username_slug,
   $theme_hostname_slug   = $ohmyzsh::params::theme_hostname_slug,
 ) inherits ohmyzsh::params {
