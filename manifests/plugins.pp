@@ -23,7 +23,7 @@
 #
 define ohmyzsh::plugins(
   $defaults = true,
-  $plugins = ['gitfast', 'colorize', 'history-substring-search'],
+  $plugins = ['git'],
 ) {
   include 'ohmyzsh'
   include 'ohmyzsh::config'
