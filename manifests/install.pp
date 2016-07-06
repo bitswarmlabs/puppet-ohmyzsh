@@ -84,6 +84,11 @@ define ohmyzsh::install(
     require => Exec["ohmyzsh::git clone ${name}"],
     before  => File_line["ohmyzsh::disable_auto_update ${name}"],
   }
+  ->
+  file { "${home}/.zshrc":
+    ensure  => file,
+    audit   => content,
+  }
 
   $theme_username_slug = $ohmyzsh::config::theme_username_slug
   $theme_hostname_slug = $ohmyzsh::config::theme_hostname_slug
@@ -110,25 +115,18 @@ define ohmyzsh::install(
     }
   }
 
-  file { "${home}/.zshrc":
-    ensure  => file,
-    source  => '/etc/zsh/newuser.zshrc.recommended',
-    owner   => $name,
-    group   => $name,
-    replace => false,
-  }
 
   file_line { "ohmyzsh::disable_auto_update ${name}":
-    path  => "${home}/.zshrc",
-    line  => "DISABLE_AUTO_UPDATE=\"${_disable_auto_update}\"",
-    match => '.*DISABLE_AUTO_UPDATE.*',
+    path    => "${home}/.zshrc",
+    line    => "DISABLE_AUTO_UPDATE=\"${_disable_auto_update}\"",
+    match   => '.*DISABLE_AUTO_UPDATE.*',
     require => File["${home}/.zshrc"],
   }
 
   file_line { "ohmyzsh::disable_update_prompt ${name}":
-    path  => "${home}/.zshrc",
-    line  => "DISABLE_UPDATE_PROMPT=\"${_disable_update_prompt}\"",
-    match => '.*DISABLE_UPDATE_PROMPT.*',
+    path    => "${home}/.zshrc",
+    line    => "DISABLE_UPDATE_PROMPT=\"${_disable_update_prompt}\"",
+    match   => '.*DISABLE_UPDATE_PROMPT.*',
     require => File["${home}/.zshrc"],
   }
 }
