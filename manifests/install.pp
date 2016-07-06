@@ -65,6 +65,10 @@ define ohmyzsh::install(
     require => Package[$ohmyzsh::config::git_package_name],
   }
 
+  exec { "cp -f ${home}/.zshrc ${home}/.zshrc.orig":
+    onlyif => "test ! -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc"
+  }
+  ~>
   exec { "ohmyzsh::cp .zshrc ${name}":
     creates => "${home}/.zshrc",
     command => "cp ${home}/.oh-my-zsh/templates/zshrc.zsh-template ${home}/.zshrc",
