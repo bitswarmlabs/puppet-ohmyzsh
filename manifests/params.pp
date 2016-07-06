@@ -15,12 +15,15 @@ class ohmyzsh::params {
   case $::osfamily {
     'Redhat': {
       $zsh = '/bin/zsh'
+      $reset_sh = '/bin/bash'
       $os_default_plugins = [
         'fedora'
       ]
     }
     'Debian': {
       $zsh = '/usr/bin/zsh'
+
+      $reset_sh = '/bin/bash'
       if $::operatingsystem == 'Ubuntu' {
         $os_default_plugins = [
           'ubuntu'
@@ -34,6 +37,7 @@ class ohmyzsh::params {
     }
     default: {
       $zsh = '/usr/bin/zsh'
+      $reset_sh = '/bin/bash'
       $os_default_plugins = []
     }
   }
