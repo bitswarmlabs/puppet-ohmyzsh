@@ -1,5 +1,5 @@
 define ohmyzsh::uninstall(
-  $set_sh = undef,
+  $reset_sh = '/bin/bash',
 ) {
   include 'ohmyzsh::config'
 
@@ -7,6 +7,13 @@ define ohmyzsh::uninstall(
     $home = '/root'
   } else {
     $home = "${ohmyzsh::config::home}/${name}"
+  }
+
+  if $reset_sh == undef or $reset_sh == true {
+    $_reset_sh = $ohmyzsh::config::reset_sh
+  }
+  else {
+    $_reset_sh = $reset_sh
   }
 
   exec { "cp -f ${home}/.zshrc.orig ${home}/.zshrc && rm -f ${home}/.zshrc.orig":
@@ -21,5 +28,21 @@ define ohmyzsh::uninstall(
   ~>
   file { "${home}/.oh-my-zsh":
     ensure => absent,
+  }
+
+  if $_reset_sh {
+    if str2bool($ohmyzsh::config::manage_user) and ! defined(User[$name]) {
+      user { "ohmyzsh::user ${name}":
+        ensure     => present,
+        name       => $name,
+        managehome => true,
+        shell      => $_reset_sh,
+        require    => Package[$ohmyzsh::config::zsh_package_name],
+      }
+    } else {
+      User <| title == $name |> {
+        shell => $ohmyzsh::config::zsh
+      }
+    }
   }
 }
