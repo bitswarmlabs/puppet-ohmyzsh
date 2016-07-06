@@ -14,13 +14,12 @@ define ohmyzsh::uninstall(
     onlyif => "test -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc-orig"
   }
   ~>
-  exec { "cp -f /etc/zsh/newuser.zshrc.recommended ${home}/.zshrc":
+  exec { "cp -f /etc/zsh/newuser.zshrc.recommended ${home}/.zshrc && rm -rf ${home}/.oh-my-zsh":
     path   => ['/bin', '/usr/bin'],
     onlyif => "test -d ${home}/.oh-my-zsh && test ! -e ${home}/.zshrc.orig"
   }
   ~>
   file { "${home}/.oh-my-zsh":
     ensure => absent,
-    force  => true,
   }
 }
