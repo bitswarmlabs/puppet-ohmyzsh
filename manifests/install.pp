@@ -71,7 +71,6 @@ define ohmyzsh::install(
     cwd     => $home,
     user    => $name,
     onlyif  => "test ! -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc",
-    require => File["${home}/.zshrc"],
   }
   ~>
   exec { "ohmyzsh::cp .zshrc ${name}":
@@ -82,7 +81,6 @@ define ohmyzsh::install(
     onlyif  => "getent passwd ${name} | cut -d : -f 6 | xargs test -e",
     user    => $name,
     require => Exec["ohmyzsh::git clone ${name}"],
-    before  => File_line["ohmyzsh::disable_auto_update ${name}"],
   }
   ->
   file { "${home}/.zshrc":
@@ -117,16 +115,16 @@ define ohmyzsh::install(
 
 
   file_line { "ohmyzsh::disable_auto_update ${name}":
-    path    => "${home}/.zshrc",
-    line    => "DISABLE_AUTO_UPDATE=\"${_disable_auto_update}\"",
-    match   => '.*DISABLE_AUTO_UPDATE.*',
-    require => File["${home}/.zshrc"],
+    path      => "${home}/.zshrc",
+    line      => "DISABLE_AUTO_UPDATE=\"${_disable_auto_update}\"",
+    match     => '.*DISABLE_AUTO_UPDATE.*',
+    subscribe => File["${home}/.zshrc"],
   }
 
   file_line { "ohmyzsh::disable_update_prompt ${name}":
     path    => "${home}/.zshrc",
     line    => "DISABLE_UPDATE_PROMPT=\"${_disable_update_prompt}\"",
     match   => '.*DISABLE_UPDATE_PROMPT.*',
-    require => File["${home}/.zshrc"],
+    subscribe => File["${home}/.zshrc"],
   }
 }
