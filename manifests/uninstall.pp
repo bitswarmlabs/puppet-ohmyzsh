@@ -10,15 +10,17 @@ define ohmyzsh::uninstall(
   }
 
   exec { "cp -f ${home}/.zshrc.orig ${home}/.zshrc && rm -f ${home}/.zshrc.orig":
+    path   => ['/bin', '/usr/bin'],
     onlyif => "test -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc-orig"
   }
   ~>
   exec { "cp -f /etc/zsh/newuser.zshrc.recommended ${home}/.zshrc":
+    path   => ['/bin', '/usr/bin'],
     onlyif => "test -d ${home}/.oh-my-zsh && test ! -e ${home}/.zshrc.orig"
   }
   ~>
   file { "${home}/.oh-my-zsh":
     ensure => absent,
-    force => true,
+    force  => true,
   }
 }

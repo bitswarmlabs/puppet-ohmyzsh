@@ -66,7 +66,8 @@ define ohmyzsh::install(
   }
 
   exec { "cp -f ${home}/.zshrc ${home}/.zshrc.orig":
-    onlyif => "test ! -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc"
+    path    => ['/bin', '/usr/bin'],
+    onlyif  => "test ! -d ${home}/.oh-my-zsh && test -e ${home}/.zshrc"
   }
   ~>
   exec { "ohmyzsh::cp .zshrc ${name}":
