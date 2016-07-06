@@ -33,15 +33,12 @@ define ohmyzsh::uninstall(
   if $_reset_sh {
     if str2bool($ohmyzsh::config::manage_user) and ! defined(User[$name]) {
       user { "ohmyzsh::user ${name}":
-        ensure     => present,
         name       => $name,
-        managehome => true,
         shell      => $_reset_sh,
-        require    => Package[$ohmyzsh::config::zsh_package_name],
       }
     } else {
       User <| title == $name |> {
-        shell => $ohmyzsh::config::zsh
+        shell => $_reset_sh
       }
     }
   }
