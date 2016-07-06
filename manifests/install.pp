@@ -76,7 +76,7 @@ define ohmyzsh::install(
   ~>
   exec { "ohmyzsh::cp .zshrc ${name}":
     creates => "${home}/.zshrc",
-    command => "cp ${home}/.oh-my-zsh/templates/zshrc.zsh-template ${home}/.zshrc",
+    command => "cp -f ${home}/.oh-my-zsh/templates/zshrc.zsh-template ${home}/.zshrc",
     cwd     => $home,
     path    => ['/bin', '/usr/bin'],
     onlyif  => "getent passwd ${name} | cut -d : -f 6 | xargs test -e",
