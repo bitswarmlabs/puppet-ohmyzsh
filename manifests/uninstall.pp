@@ -1,6 +1,8 @@
 define ohmyzsh::uninstall(
   $set_sh = undef,
 ) {
+  include 'ohmyzsh::config'
+
   if $name == 'root' {
     $home = '/root'
   } else {
